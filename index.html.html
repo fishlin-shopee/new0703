@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang='zh-TW'><head><meta charset='utf-8'>
+<title>Marketing Gantt Prototype</title>
+<style>
+body{margin:0;font-family:Segoe UI;background:#f6f2f8;color:#4d4260}
+header{background:#b7a3c9;color:#fff;padding:12px}
+.wrap{overflow:auto;height:85vh}
+table{border-collapse:collapse}
+th,td{border:1px solid #ddd;min-width:42px;height:34px}
+th.sticky,td.sticky{position:sticky;left:0;background:#f3edf7;z-index:2;min-width:180px}
+.weekend{background:#f9e8ef}.holiday{background:#fde7d8}
+.mc{background:#f7b24d}.kfc{background:#9d4b45;color:#fff}
+select,input{width:100%;box-sizing:border-box;font-size:11px}
+</style></head><body>
+<header><h2>行銷甘特圖 Prototype</h2></header>
+<div class='wrap'><table id='g'></table></div>
+<script>
+const y=2026,m=6,wd=['日','一','二','三','四','五','六'];
+const rows=['發曝光檔期','美術工單','回收美術','設定曝光'];
+let t='<tr><th class="sticky">項目</th>';
+const days=new Date(y,m+1,0).getDate();
+for(let d=1;d<=days;d++){let dt=new Date(y,m,d),c='';
+if(dt.getDay()==0||dt.getDay()==6)c='weekend';
+t+=`<th class="${c}">${d}<br>${wd[dt.getDay()]}</th>`}
+t+='</tr>';
+rows.forEach((r,i)=>{t+=`<tr><td class="sticky">${r}</td>`;
+for(let d=1;d<=days;d++){
+let dt=new Date(y,m,d),g=dt.getDay(),cell='';
+if(i==0){if(g==1)cell='<div class=mc>麥</div>';if(g>=5||g==0)cell='<div class=kfc>KFC</div>';}
+if(i==3)cell='<select><option>PN</option><option>Coin Page</option><option>EDM</option></select><input placeholder="+新增">';
+t+=`<td>${cell}</td>`}
+t+='</tr>'});
+document.getElementById('g').innerHTML=t;
+</script></body></html>
